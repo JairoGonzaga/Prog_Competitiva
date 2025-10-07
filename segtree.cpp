@@ -4,10 +4,10 @@ using namespace std;
 class segtree
 {
 private:
-    int* vetor;
+    ll* vetor;
 public:
-    segtree(int N){
-        vetor = new int[N*4];
+    segtree(ll N){
+        vetor = new ll[N*4];
     }
     ~segtree(){
         delete[] vetor;
@@ -29,6 +29,22 @@ public:
         if(l==esq && r == direita) return vetor[v];
         ll ni = (esq+direita)/2;
         return sum(v*2, esq, ni, l, min(r, ni)) + sum(v*2+1, ni+1, direita, max(l, ni+1), r);
+        
+    }
+    ll minimo(ll v, ll esq, ll direita, ll l, ll r){
+
+        if(l>r) return LLONG_MAX;
+        if(l==esq && r == direita) return vetor[v];
+        ll ni = (esq+direita)/2;
+        return min(minimo(v*2, esq, ni, l, min(r, ni)), minimo(v*2+1, ni+1, direita, max(l, ni+1), r));
+        
+    }
+    ll maximo(ll v, ll esq, ll direita, ll l, ll r){
+
+        if(l>r) return LLONG_MIN;
+        if(l==esq && r == direita) return vetor[v];
+        ll ni = (esq+direita)/2;
+        return max(maximo(v*2, esq, ni, l, min(r, ni)), maximo(v*2+1, ni+1, direita, max(l, ni+1), r));
         
     }
     void update(int v, int esq, int direita, int pos, int new_val) {
